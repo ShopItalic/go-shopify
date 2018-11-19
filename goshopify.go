@@ -182,11 +182,15 @@ func (a App) NewClient(shopName, token string) *Client {
 // token. The shopName parameter is the shop's myshopify domain,
 // e.g. "theshop.myshopify.com", or simply "theshop"
 func NewClient(app App, shopName, token string) *Client {
+	return NewCustomURLClient(app, ShopBaseUrl(shopName), token)
+}
+
+func NewCustomURLClient(app App, baseURL, token string) *Client {
 	httpClient := http.DefaultClient
 
-	baseURL, _ := url.Parse(ShopBaseUrl(shopName))
+	u, _ := url.Parse(baseURL)
 
-	c := &Client{Client: httpClient, app: app, baseURL: baseURL, token: token}
+	c := &Client{Client: httpClient, app: app, baseURL: u, token: token}
 	c.Product = &ProductServiceOp{client: c}
 	c.CustomCollection = &CustomCollectionServiceOp{client: c}
 	c.SmartCollection = &SmartCollectionServiceOp{client: c}
