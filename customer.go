@@ -18,8 +18,8 @@ type CustomerService interface {
 	Count(interface{}) (int, error)
 	Get(int, interface{}) (*Customer, error)
 	Search(interface{}) ([]Customer, error)
-	Create(Customer) (*Customer, error)
-	Update(Customer) (*Customer, error)
+	Create(CustomerWrite) (*Customer, error)
+	Update(CustomerWrite) (*Customer, error)
 	Delete(int) error
 	ListOrders(int, interface{}) ([]Order, error)
 
@@ -56,6 +56,21 @@ type Customer struct {
 	CreatedAt           *time.Time         `json:"created_at,omitempty"`
 	UpdatedAt           *time.Time         `json:"updated_at,omitempty"`
 	Metafields          []Metafield        `json:"metafields,omitempty"`
+}
+
+type CustomerWrite struct {
+	*Customer
+
+	// Write only fields
+	Password             *string `json:"password,omitempty"`
+	PasswordConfirmation *string `json:"password_confirmation,omitempty"`
+	SendEmailWelcome     *bool   `json:"send_email_welcome,omitempty"`
+	SendEmailInvite      *bool   `json:"send_email_invite,omitempty"`
+}
+
+// Represents the request body from the customers/X.json endpoint
+type CustomerWriteResource struct {
+	CustomerWrite *CustomerWrite `json:"customer"`
 }
 
 // Represents the result from the customers/X.json endpoint
@@ -100,18 +115,18 @@ func (s *CustomerServiceOp) Get(customerID int, options interface{}) (*Customer,
 }
 
 // Create a new customer
-func (s *CustomerServiceOp) Create(customer Customer) (*Customer, error) {
+func (s *CustomerServiceOp) Create(customerWrite CustomerWrite) (*Customer, error) {
 	path := fmt.Sprintf("%s.json", customersBasePath)
-	wrappedData := CustomerResource{Customer: &customer}
+	wrappedData := CustomerWriteResource{CustomerWrite: &customerWrite}
 	resource := new(CustomerResource)
 	err := s.client.Post(path, wrappedData, resource)
 	return resource.Customer, err
 }
 
 // Update an existing customer
-func (s *CustomerServiceOp) Update(customer Customer) (*Customer, error) {
-	path := fmt.Sprintf("%s/%d.json", customersBasePath, customer.ID)
-	wrappedData := CustomerResource{Customer: &customer}
+func (s *CustomerServiceOp) Update(customerWrite CustomerWrite) (*Customer, error) {
+	path := fmt.Sprintf("%s/%d.json", customersBasePath, customerWrite.ID)
+	wrappedData := CustomerWriteResource{CustomerWrite: &customerWrite}
 	resource := new(CustomerResource)
 	err := s.client.Put(path, wrappedData, resource)
 	return resource.Customer, err
