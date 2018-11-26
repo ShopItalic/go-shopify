@@ -238,7 +238,7 @@ func TestCustomerUpdate(t *testing.T) {
 		Tags: "new",
 	}
 
-	returnedCustomer, err := client.Customer.Update(customer)
+	returnedCustomer, err := client.Customer.Update(CustomerWrite{Customer: &customer})
 	if err != nil {
 		t.Errorf("Customer.Update returned error: %v", err)
 	}
@@ -261,7 +261,7 @@ func TestCustomerCreate(t *testing.T) {
 		Tags: "new",
 	}
 
-	returnedCustomer, err := client.Customer.Create(customer)
+	returnedCustomer, err := client.Customer.Create(CustomerWrite{Customer: &customer})
 	if err != nil {
 		t.Errorf("Customer.Create returned error: %v", err)
 	}
