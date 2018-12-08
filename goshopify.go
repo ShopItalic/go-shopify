@@ -94,7 +94,7 @@ func (e ResponseError) Error() string {
 		return s
 	}
 
-	return "Unknown Error with status " + string(e.Status)
+	return "Unknown Error"
 }
 
 // ResponseDecodingError occurs when the response body from Shopify could
