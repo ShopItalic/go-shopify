@@ -65,6 +65,7 @@ type OrderListOptions struct {
 	ProcessedAtMax    time.Time `url:"processed_at_max,omitempty"`
 	Fields            string    `url:"fields,omitempty"`
 	Order             string    `url:"order,omitempty"`
+	IDs               []int     `url:"ids,omitempty,comma"`
 }
 
 // Order represents a Shopify order
