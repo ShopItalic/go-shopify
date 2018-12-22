@@ -268,6 +268,7 @@ type Refund struct {
 	Id              int              `json:"id,omitempty"`
 	OrderId         int              `json:"order_id,omitempty"`
 	CreatedAt       *time.Time       `json:"created_at,omitempty"`
+	ProcessedAt     *time.Time       `json:"processed_at,omitempty"`
 	Note            string           `json:"note,omitempty"`
 	Restock         bool             `json:"restock,omitempty"`
 	UserId          int              `json:"user_id,omitempty"`
@@ -276,12 +277,14 @@ type Refund struct {
 }
 
 type RefundLineItem struct {
-	Id         int              `json:"id,omitempty"`
-	Quantity   int              `json:"quantity,omitempty"`
-	LineItemId int              `json:"line_item_id,omitempty"`
-	LineItem   *LineItem        `json:"line_item,omitempty"`
-	Subtotal   *decimal.Decimal `json:"subtotal,omitempty"`
-	TotalTax   *decimal.Decimal `json:"total_tax,omitempty"`
+	Id          int              `json:"id,omitempty"`
+	Quantity    int              `json:"quantity,omitempty"`
+	LineItemId  int              `json:"line_item_id,omitempty"`
+	LineItem    *LineItem        `json:"line_item,omitempty"`
+	RestockType string           `json:"restock_type,omitempty"`
+	LocationId  int              `json:"location_id,omitempty"`
+	Subtotal    *decimal.Decimal `json:"subtotal,omitempty"`
+	TotalTax    *decimal.Decimal `json:"total_tax,omitempty"`
 }
 
 // List orders
