@@ -98,12 +98,14 @@ func TestCustomerGet(t *testing.T) {
 	updatedAt := time.Date(2017, time.September, 23, 18, 15, 47, 0, loc)
 	totalSpent := decimal.NewFromFloat(278.60)
 
+	trueVar := true
+
 	expectation := &Customer{
 		ID:               1,
 		Email:            "test@example.com",
 		FirstName:        "Test",
 		LastName:         "Citizen",
-		AcceptsMarketing: true,
+		AcceptsMarketing: &trueVar,
 		VerifiedEmail:    true,
 		TaxExempt:        false,
 		OrdersCount:      4,
@@ -130,7 +132,7 @@ func TestCustomerGet(t *testing.T) {
 	if customer.LastName != expectation.LastName {
 		t.Errorf("Customer.LastName returned %+v, expected %+v", customer.LastName, expectation.LastName)
 	}
-	if customer.AcceptsMarketing != expectation.AcceptsMarketing {
+	if *customer.AcceptsMarketing != *expectation.AcceptsMarketing {
 		t.Errorf("Customer.AcceptsMarketing returned %+v, expected %+v", customer.AcceptsMarketing, expectation.AcceptsMarketing)
 	}
 	if customer.CreatedAt.Equal(*expectation.CreatedAt) {
