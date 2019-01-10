@@ -51,7 +51,7 @@ type Customer struct {
 	Tags                string             `json:"tags,omitempty"`
 	LastOrderId         int                `json:"last_order_id,omitempty"`
 	LastOrderName       string             `json:"last_order_name,omitempty"`
-	AcceptsMarketing    bool               `json:"accepts_marketing,omitempty"`
+	AcceptsMarketing    *bool               `json:"accepts_marketing,omitempty"`
 	DefaultAddress      *CustomerAddress   `json:"default_address,omitempty"`
 	Addresses           []*CustomerAddress `json:"addresses,omitempty"`
 	CreatedAt           *time.Time         `json:"created_at,omitempty"`
